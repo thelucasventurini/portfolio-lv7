@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucas Venturini — Madeira Madeira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:     #0c0c0c;
+    --bg2:    #141414;
+    --bg3:    #1c1c1c;
+    --accent: #d95f3b;
+    --text:   #f2ede6;
+    --sub:    #c4bdb4;
+    --muted:  #8c8680;
+    --dim:    #3a3530;
+    --line:   #2a2520;
+    --card:   #141414;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background: rgba(12,12,12,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    animation: fadeDown 0.8s 0.2s forwards;
+  }
+
+  .nav-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+
+  .nav-role {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 140px 60px 90px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 65% 35%, rgba(217,95,59,0.09) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 6.5vw, 92px);
+    line-height: 1.05;
+    font-weight: 700;
+    max-width: 860px;
+    color: var(--text);
+    opacity: 0;
+    animation: fadeUp 0.9s 0.55s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 36px;
+    font-size: 18px;
+    color: var(--sub);
+    max-width: 500px;
+    line-height: 1.65;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.7s forwards;
+  }
+
+  .hero-byline {
+    margin-top: 56px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.85s forwards;
+  }
+
+  .hero-byline-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--text);
+  }
+
+  .hero-byline-sep {
+    width: 32px;
+    height: 1px;
+    background: var(--dim);
+  }
+
+  .hero-byline-role {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .hero-number {
+    position: absolute;
+    right: 40px;
+    bottom: 50px;
+    font-family: 'Playfair Display', serif;
+    font-size: 220px;
+    font-weight: 700;
+    color: #181818;
+    line-height: 1;
+    user-select: none;
+    opacity: 0;
+    animation: fadeIn 1.4s 1s forwards;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--line);
+    margin: 0 60px;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 100px 60px;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 56px;
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+  }
+
+  /* PROSE */
+  .prose p {
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--sub);
+    margin-bottom: 22px;
+    max-width: 700px;
+  }
+
+  .prose p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .prose p:last-child { margin-bottom: 0; }
+
+  /* STEPS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    margin-top: 48px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .step {
+    background: var(--card);
+    padding: 40px 32px;
+    transition: background 0.2s;
+  }
+
+  .step:hover { background: #1a1a1a; }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--dim);
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+
+  .step-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .step-body {
+    font-size: 14px;
+    color: var(--sub);
+    line-height: 1.75;
+  }
+
+  .step-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .step-links a {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .step-links a:hover { opacity: 0.7; }
+
+  /* JORNADA TABLE */
+  .jornada-table-wrapper {
+    overflow-x: auto;
+    margin-top: 48px;
+    border: 1px solid var(--line);
+  }
+
+  .jornada-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 1400px;
+  }
+
+  .jornada-table thead tr {
+    background: var(--accent);
+  }
+
+  .jornada-table thead th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    vertical-align: bottom;
+    min-width: 160px;
+  }
+
+  .jornada-table thead th.col-row-label {
+    min-width: 130px;
+    background: #b84e2e;
+  }
+
+  .jornada-table thead th:last-child { border-right: none; }
+
+  .jornada-table tbody tr {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .jornada-table tbody tr:last-child { border-bottom: none; }
+  .jornada-table tbody tr:hover td { background: #181818; }
+  .jornada-table tbody tr:hover td.row-label { background: #1e1a18; }
+
+  .jornada-table td {
+    padding: 16px;
+    vertical-align: top;
+    line-height: 1.6;
+    color: var(--sub);
+    border-right: 1px solid var(--line);
+    font-size: 13px;
+  }
+
+  .jornada-table td:last-child { border-right: none; }
+
+  .jornada-table td strong {
+    display: block;
+    color: var(--text);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+
+  .jornada-table td.row-label {
+    background: var(--bg3);
+    border-right: 1px solid var(--line);
+    padding: 16px 12px;
+    vertical-align: middle;
+  }
+
+  .jornada-table td.row-label span {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+  }
+
+  /* TABLE */
+  .table-wrapper {
+    overflow-x: auto;
+    margin-top: 48px;
+    border: 1px solid var(--line);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  thead tr { background: var(--accent); }
+
+  thead th {
+    padding: 18px 20px;
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  thead th:first-child { color: rgba(255,255,255,0.45); }
+
+  tbody tr { border-bottom: 1px solid var(--line); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #181818; }
+
+  .row-group td {
+    background: var(--bg3) !important;
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent) !important;
+    padding: 10px 20px !important;
+  }
+
+  td {
+    padding: 16px 20px;
+    vertical-align: top;
+    line-height: 1.6;
+    color: var(--sub);
+    border-right: 1px solid var(--line);
+  }
+
+  td:last-child { border-right: none; }
+  td:first-child { color: var(--muted); font-size: 13px; }
+
+  /* FLOW */
+  .flow-list { margin-top: 48px; }
+
+  .flow-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 28px;
+    align-items: start;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .flow-item:last-child { border-bottom: none; }
+
+  .flow-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--dim);
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  .flow-content h4 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .flow-content p {
+    font-size: 15px;
+    color: var(--sub);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  /* PARTNERS */
+  .partners-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin-top: 48px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .partner-card {
+    background: var(--card);
+    padding: 40px;
+  }
+
+  .partner-card.accent-card {
+    background: var(--accent);
+    grid-column: span 2;
+  }
+
+  .partner-card.accent-card .card-title { color: #fff; }
+  .partner-card.accent-card .card-body  { color: rgba(255,255,255,0.72); }
+  .partner-card.accent-card .card-label { color: rgba(255,255,255,0.5); }
+
+  .card-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    line-height: 1.25;
+    color: var(--text);
+  }
+
+  .card-body {
+    font-size: 15px;
+    color: var(--sub);
+    line-height: 1.75;
+  }
+
+  /* RESULTS */
+  .results-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1px;
+    margin-top: 48px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .stat-block {
+    background: var(--accent);
+    padding: 64px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 88px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .stat-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 18px;
+    line-height: 1.65;
+  }
+
+  .result-text {
+    background: var(--card);
+    padding: 64px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .result-text p {
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--sub);
+    margin-bottom: 22px;
+    max-width: 580px;
+  }
+
+  .result-text p:last-child { margin-bottom: 0; }
+
+  /* FOOTER */
+  footer {
+    padding: 56px 60px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .footer-role {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .footer-note {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-10px);} to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav, .hero, section, footer { padding-left: 24px; padding-right: 24px; }
+    .divider { margin: 0 24px; }
+    .hero-number { display: none; }
+    .partners-grid { grid-template-columns: 1fr; }
+    .partner-card.accent-card { grid-column: span 1; }
+    .results-row { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; }
+    .footer-note { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-name">Lucas Venturini</div>
+  <div style="display:flex;align-items:center;gap:28px;">
+    <div class="nav-role" data-pt="Product Designer" data-en="Product Designer">Product Designer</div>
+    <a href="https://bit.ly/portfolioventurini" target="_blank" style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Portfólio ↗</a>
+    <a href="https://www.linkedin.com/in/thelucasventurini/" target="_blank" style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">LinkedIn ↗</a>
+    <a href="lucas_venturini_portfolio_en.html" style="background:none;border:1px solid var(--dim);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;cursor:pointer;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--dim)';this.style.color='var(--muted)'">EN</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label" data-pt="Projeto — Madeira Madeira" data-en="Project — Madeira Madeira">Projeto — Madeira Madeira</div>
+  <h1 class="hero-title"><span data-pt="Redesign do processo de" data-en="Redesign of the">Redesign do processo de</span> <em data-pt="assistência técnica" data-en="technical support process">assistência técnica</em> <span data-pt="no pós-venda" data-en="in after-sales">no pós-venda</span></h1>
+  <p class="hero-sub" data-pt="Projeto de consultoria conduzido para apoiar o time de UX da Madeira Madeira no redesign da jornada de pós-venda e assistência técnica." data-en="Consulting project conducted to support the UX team at Madeira Madeira in redesigning the after-sales and technical support journey.">Projeto de consultoria conduzido para apoiar o time de UX da Madeira Madeira no redesign da jornada de pós-venda e assistência técnica.</p>
+  <div class="hero-byline">
+    <div class="hero-byline-name">Lucas Venturini</div>
+    <div class="hero-byline-sep"></div>
+    <div class="hero-byline-role" data-pt="Product Designer" data-en="Product Designer">Product Designer</div>
+  </div>
+  <div class="hero-number">01</div>
+</div>
+
+<div class="divider"></div>
+
+<section id="contexto">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title" data-pt="Contexto e Problema" data-en="Context and Problem">Contexto e Problema</h2>
+  </div>
+  <div class="prose">
+    <p data-pt="Na Madeira Madeira, o time de negócios identificou um volume crescente de reclamações passando pelo processo de assistência técnica no pós-venda. Clientes que compravam produtos como móveis chegavam a receber itens com defeito ou danificados e precisavam acionar o suporte para resolver." data-en="At Madeira Madeira, the business team identified a growing volume of complaints going through the after-sales technical support process. Customers who bought products like furniture were receiving items with defects or damage and needed to contact support to resolve the issues.">Na Madeira Madeira, o time de negócios identificou um volume crescente de reclamações passando pelo processo de assistência técnica no pós-venda. Clientes que compravam produtos como móveis chegavam a receber itens com defeito ou danificados e precisavam acionar o suporte para resolver.</p>
+    <p data-pt="O dado mais preocupante veio de uma análise de retenção: <strong>mais de 50% dos clientes que passavam pela assistência técnica não voltavam a comprar na plataforma.</strong> Quem acionava o suporte provavelmente se tornava um detrator e deixava de comprar. A experiência de pós-venda estava destruindo o relacionamento com o usuário no momento em que ele mais precisava de suporte." data-en="The most concerning figure came from a retention analysis: <strong>more than 50% of customers who went through technical support did not return to make another purchase.</strong> Whoever contacted support would likely become a detractor and stop buying. The after-sales experience was destroying the relationship with the user at the very moment they needed support the most.">O dado mais preocupante veio de uma análise de retenção: <strong>mais de 50% dos clientes que passavam pela assistência técnica não voltavam a comprar na plataforma.</strong> Quem acionava o suporte provavelmente se tornava um detrator e deixava de comprar. A experiência de pós-venda estava destruindo o relacionamento com o usuário no momento em que ele mais precisava de suporte.</p>
+    <p data-pt="Esse cenário tornou a intervenção urgente. O negócio trouxe a demanda para ser trabalhada como um projeto de redesign, com o objetivo de entender as causas raiz e redesenhar a jornada de assistência técnica de ponta a ponta." data-en="This scenario made intervention urgent. The business brought the demand forward as a redesign project, with the goal of understanding the root causes and redesigning the technical support journey end to end.">Esse cenário tornou a intervenção urgente. O negócio trouxe a demanda para ser trabalhada como um projeto de redesign, com o objetivo de entender as causas raiz e redesenhar a jornada de assistência técnica de ponta a ponta.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="discovery">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title" data-pt="Discovery" data-en="Discovery">Discovery</h2>
+  </div>
+  <div class="prose">
+    <p data-pt="O processo de discovery foi estruturado em quatro etapas complementares, com o objetivo de garantir uma visão completa do problema — olhando tanto para a experiência do usuário final quanto para as operações internas e para o mercado." data-en="The discovery process was structured into four complementary stages, aiming to ensure a complete view of the problem — looking at both the end user experience and the company's internal operations and market practices.">O processo de discovery foi estruturado em quatro etapas complementares, com o objetivo de garantir uma visão completa do problema — olhando tanto para a experiência do usuário final quanto para as operações internas e para o mercado.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title" data-pt="Benchmark Interno do Produto" data-en="Internal Product Benchmark">Benchmark Interno do Produto</div>
+      <div class="step-body">Mais de 20 compras teste com budget aprovado, simulando diferentes cenários de acionamento do suporte. A análise mapeou tanto a jornada do usuário final quanto os processos internos, revelando um fluxo burocrático e pesado, com gargalos no cadastro de peças para reposição. O processo envolvia fornecedores terceiros, logística, entregadores e times internos.</div>
+      <div class="step-links">
+        <a href="https://miro.com/app/board/uXjVHQJmqJo=/?moveToWidget=3458764621759265387&cot=14" target="_blank" data-pt="Benchmark Interno ↗" data-en="Internal Benchmark ↗">Benchmark Interno ↗</a>
+        <a href="https://miro.com/app/board/uXjVHQJmqJo=/?moveToWidget=3458764621833820565&cot=14" target="_blank" data-pt="Jornada Mapeada ↗" data-en="Mapped Journey ↗">Jornada Mapeada ↗</a>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title" data-pt="Workshops com Stakeholders" data-en="Stakeholder Workshops">Workshops com Stakeholders</div>
+      <div class="step-body">7 workshops conduzidos com grupos de diferentes áreas: CX, logística, fornecedores, serviços, contabilidade e lideranças. As dinâmicas incluíram mapeamento de problemas, visão de produto por área, É / Não é / Faz / Não faz, objetivos de negócio e How Might We — expandindo do micro para o macro.</div>
+      <div class="step-links">
+        <a href="https://miro.com/app/board/uXjVHQJmqJo=/?moveToWidget=3458764672718119974&cot=14" target="_blank" data-pt="Workshops com Stakeholders ↗" data-en="Stakeholder Workshops ↗">Workshops com Stakeholders ↗</a>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title" data-pt="Análise Quantitativa de Dados" data-en="Quantitative Data Analysis">Análise Quantitativa de Dados</div>
+      <div class="step-body">Um ano de dados cruzados com o time de desenvolvimento e dados: categoria de produto, tipo de contato, prazo de entrega, custo de envio, padrões por fornecedor e incidência por cidade. Fontes incluíram dados internos, Reclame Aqui e call center.</div>
+      <div class="step-links">
+        <a href="https://miro.com/app/board/uXjVHQJmqJo=/?moveToWidget=3458764617807779801&cot=14" target="_blank" data-pt="Análise Completa ↗" data-en="Full Analysis ↗">Análise Completa ↗</a>
+        <a href="https://miro.com/app/board/uXjVHQJmqJo=/?moveToWidget=3458764617758416787&cot=14" target="_blank" data-pt="Apresentação da Análise Quantitativa ↗" data-en="Quantitative Analysis Presentation ↗">Apresentação da Análise Quantitativa ↗</a>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title" data-pt="Benchmark de Mercado" data-en="Market Benchmark">Benchmark de Mercado</div>
+      <div class="step-body">Análise de Mercado Livre, Amazon, Magazine Luiza e IKEA, estruturada dentro das etapas da jornada. Identificou padrões de modelos de atendimento e gerou insumos diretos para o redesign. O modelo da IKEA inspirou a proposta de rede de parceiros locais.</div>
+      <div class="step-links">
+        <a href="https://www.figma.com/board/eGXnyjNskmd2EmaxpbsXsI/Discovery-Assiste%CC%82ncia-Te%CC%81cnica?node-id=5367-2604" target="_blank" data-pt="Benchmark de Mercado ↗" data-en="Market Benchmark ↗">Benchmark de Mercado ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="entrega">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title" data-pt="Entrega do Discovery" data-en="Discovery Deliverables">Entrega do Discovery</h2>
+  </div>
+  <div class="prose">
+    <p data-pt="Como resultado das quatro etapas, foi produzido um documento consolidado com o diagnóstico completo do problema e as diretrizes para o redesign, apresentado para os stakeholders de negócio." data-en="As a result of the four stages, a consolidated document was produced with a complete diagnosis of the problem and the guidelines for the redesign, presented to business stakeholders.">Como resultado das quatro etapas, foi produzido um documento consolidado com o diagnóstico completo do problema e as diretrizes para o redesign, apresentado para os stakeholders de negócio.</p>
+    <a href="https://miro.com/app/board/uXjVHQJmqJo=/?moveToWidget=3458764617758691197&cot=14" target="_blank" style="display:inline-block;margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);text-decoration:none;" data-pt="Ver Entrega do Discovery ↗" data-en="View Discovery Deliverables ↗">Ver Entrega do Discovery ↗</a>
+  </div>
+  <div class="flow-list">
+    <div class="flow-item">
+      <div class="flow-num">01</div>
+      <div class="flow-content"><h4 data-pt="Visão de produto consolidada" data-en="Consolidated product vision">Visão de produto consolidada</h4><p>O que se esperava como solução para o cliente final e para cada área envolvida, de forma global.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">02</div>
+      <div class="flow-content"><h4 data-pt="É / Não é / Faz / Não faz" data-en="Is / Is not / Does / Does not">É / Não é / Faz / Não faz</h4><p>Definição clara do escopo da iniciativa, separando o que o redesign se propunha a resolver do que estava fora do escopo.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">03</div>
+      <div class="flow-content"><h4 data-pt="Objetivos de negócio priorizados" data-en="Prioritized business objectives">Objetivos de negócio priorizados</h4><p>Três objetivos principais definidos junto com os stakeholders, com base nos aprendizados da pesquisa.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">04</div>
+      <div class="flow-content"><h4 data-pt="Personas e necessidades" data-en="Personas and needs">Personas e necessidades</h4><p>Mapeamento de perfis com necessidades específicas para cada tipo de usuário da jornada: cliente final, time de atendimento, fornecedores e logística.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">05</div>
+      <div class="flow-content"><h4 data-pt="Análise de jornada" data-en="Journey analysis">Análise de jornada</h4><p>Compilação dos principais pontos de dor e oportunidades ao longo de todo o processo.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">06</div>
+      <div class="flow-content"><h4 data-pt="To-do de oportunidades" data-en="Opportunities backlog">To-do de oportunidades</h4><p>Mapeamento das oportunidades por persona e por etapa da jornada, para orientar as soluções.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-num">07</div>
+      <div class="flow-content"><h4 data-pt="Fluxograma completo do processo" data-en="Complete process flowchart">Fluxograma completo do processo</h4><p>Mapeamento detalhado de todas as etapas dentro dos sistemas internos, desenhando como deveria funcionar um modelo mais automatizado de validação e atendimento.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="solucao">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title" data-pt="Proposta de Solução" data-en="Solution Proposal">Proposta de Solução</h2>
+  </div>
+  <div class="prose">
+    <p data-pt="Com base em todo o material do discovery, o redesign foi estruturado em três frentes com horizontes diferentes. A curto prazo, o redesenho da arquitetura de informação e da jornada de assistência técnica dentro dos sistemas da Madeira Madeira. A médio prazo, a criação de uma rede de parceiros locais para atender casos onde o envio de peças não fazia sentido operacional. A longo prazo, um centro próprio de peças de reposição para dar autonomia total à operação." data-en="Based on all the discovery material, the redesign was structured around three fronts with different time horizons. In the short term, the redesign of the information architecture and technical support journey within Madeira Madeira's systems. In the medium term, the creation of a local partner network to handle cases where shipping parts made no operational sense. In the long term, a proprietary spare parts center to give the operation full autonomy.">Com base em todo o material do discovery, o redesign foi estruturado em três frentes com horizontes diferentes. A curto prazo, o redesenho da arquitetura de informação e da jornada de assistência técnica dentro dos sistemas da Madeira Madeira. A médio prazo, a criação de uma rede de parceiros locais para atender casos onde o envio de peças não fazia sentido operacional. A longo prazo, um centro próprio de peças de reposição para dar autonomia total à operação.</p>
+  </div>
+
+  <div style="margin-bottom:32px;margin-top:56px;padding-bottom:20px;border-bottom:1px solid var(--line);">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:10px;" data-pt="Curto prazo" data-en="Short term">Curto prazo</div>
+    <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:24px;" data-pt="Redesenho da Arquitetura de Informação" data-en="Information Architecture Redesign">Redesenho da Arquitetura de Informação</div>
+    <p style="font-size:17px;line-height:1.8;color:var(--sub);max-width:700px;margin-bottom:28px;">Com base nos aprendizados do discovery, foi proposto um redesenho da arquitetura de informação do processo de assistência técnica. Esse trabalho mapeou como deveria funcionar toda a estrutura interna da Madeira Madeira a curto prazo — os fluxos, pontos de decisão, integrações entre times e a lógica de triagem automatizada para os diferentes tipos de chamado.</p>
+    <a href="https://www.figma.com/board/eGXnyjNskmd2EmaxpbsXsI/Discovery-Assiste%CC%82ncia-Te%CC%81cnica?node-id=5109-3699&t=UG5FtxTNsyCiBAwZ-4" target="_blank" style="display:inline-block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(217,95,59,0.3);padding-bottom:3px;margin-bottom:56px;" data-pt="Ver redesenho da arquitetura ↗" data-en="View architecture redesign ↗">Ver redesenho da arquitetura ↗</a>
+  </div>
+  <div style="margin-bottom:32px;margin-top:0;padding-bottom:20px;border-bottom:1px solid var(--line);">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:10px;" data-pt="Curto / Médio prazo" data-en="Short / Mid term">Curto / Médio prazo</div>
+    <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--text);" data-pt="Redesenho da Jornada de Assistência Técnica" data-en="Technical Support Journey Redesign">Redesenho da Jornada de Assistência Técnica</div>
+  </div>
+  <div class="jornada-table-wrapper">
+    <table class="jornada-table">
+      <thead>
+        <tr>
+          <th class="col-row-label"></th>
+          <th data-pt="Cliente identifica o Problema" data-en="Customer Identifies the Problem">Cliente identifica o Problema</th>
+          <th data-pt="Cliente Reporta o Problema" data-en="Customer Reports the Problem">Cliente Reporta o Problema</th>
+          <th data-pt="Acompanhamento da Solicitação" data-en="Request Follow-up">Acompanhamento da Solicitação</th>
+          <th data-pt="Atendimento recebe o caso" data-en="Support Receives the Case">Atendimento recebe o caso</th>
+          <th data-pt="Validação da Solicitação" data-en="Request Validation">Validação da Solicitação</th>
+          <th data-pt="Recebimento da Resolução do Problema" data-en="Resolution Receipt">Recebimento da Resolução do Problema</th>
+          <th data-pt="Fornecedor é acionado" data-en="Supplier is Triggered">Fornecedor é acionado</th>
+          <th data-pt="Fornecedor executa a assistência" data-en="Supplier Executes the Service">Fornecedor executa a assistência</th>
+          <th data-pt="Acompanhamento da Assistência" data-en="Service Follow-up">Acompanhamento da Assistência</th>
+          <th data-pt="Avaliação da Assistência" data-en="Service Evaluation">Avaliação da Assistência</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- JORNADA MACRO -->
+        <tr>
+          <td class="row-label"><span data-pt="Jornada Macro" data-en="Macro Journey">Jornada Macro</span></td>
+          <td><strong>Oportunidades:</strong><br>Garantir que os manuais estejam disponíveis em todos os casos. Adicionar QR codes na embalagem e no próprio produto, direcionando ao manual. Enviar manuais automaticamente por WhatsApp ou e-mail após a compra.</td>
+          <td><strong>Oportunidades:</strong><br>Disponibilizar instruções para o cliente enviar evidências de maneira correta. Criar um chatbot especializado que guie o cliente e colete todas as informações relevantes sem burocracia. Seção específica para que o cliente encontre respostas rápidas e soluções sem precisar de chamadas ao suporte.</td>
+          <td><strong>Oportunidades:</strong><br>Centralizar o envio de evidências, descrição do problema e outras comunicações sobre o pedido de assistência. Atualizações automáticas para enviar contact rate desnecessário.</td>
+          <td><strong>Oportunidades:</strong><br>Criar um checklist padronizado para análise de pedidos de assistência, atuando triandolo e aplicando a validação da assistência.</td>
+          <td><strong>Oportunidades:</strong><br>Criar um modelo preditivo para sugerir automaticamente soluções com base no histórico de assistências passadas.</td>
+          <td><strong>Oportunidades:</strong><br>Opção de executar a solicitação onde o cliente tenha encontrado o prazo. Prever reembolsos parciais ou descontos para pequenas avarias para diminuir custos de assistência. Oferecer a solução mais rápida, o que pode ser a substituição parcial da peça na troca do produto inteiro para agilizar o processo e diminuir SLA.</td>
+          <td><strong>Oportunidades:</strong><br>Uma única plataforma ou workflow integrada para priorizar e agilizar pedidos de assistência. Tickets devem ter sinalizações de prioridade e urgência. Garantir que o fornecedor receba todas as informações necessárias, incluindo fotos, vídeos e a descrição do problema. O fornecedor pode contestar a solicitação e se for o caso, retornar justificativa ao atendimento, que comunicará ao cliente.</td>
+          <td><strong>Oportunidades:</strong><br>Priorizar envio de peças pequenas por correio para agilizar entrega. Estoque de resolução rápida, para análises e peças que sofrem muitas problemas. Registros do código de rastreio na plataforma para acompanhamento.</td>
+          <td><strong>Oportunidades:</strong><br>Disponibilização do rastreamento diretamente na página do pedido. Atendimento centralizado pode visualizar o histórico do caso para dar suporte ágil.</td>
+          <td><strong>Oportunidades:</strong><br>Cliente confirma se a assistência foi concluída corretamente; se o problema não foi resolvido, o mesmo é redirecionado para uma avaliação técnica emergencial.</td>
+        </tr>
+
+        <!-- PRODUTO AVARIADO -->
+        <tr>
+          <td class="row-label"><span data-pt="Produto Avariado" data-en="Damaged Product">Produto Avariado</span></td>
+          <td><strong>Oportunidades de fluxo:</strong><br>O cliente precisa fazer o upload de fotos obrigatórias provando a avaria; caso o cliente queira reforçar a solicitação.</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Validação do pedido de assistência feita pelo time de atendimento.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente pode escolher entre troca do produto ou um reembolso parcial.</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Priorizar envio de produtos pequenos por correio para agilizar entrega. Produtos grandes seguem com a logística.</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+
+        <!-- PEÇAS AVARIADAS -->
+        <tr>
+          <td class="row-label"><span data-pt="Peças Avariadas" data-en="Damaged Parts">Peças Avariadas</span></td>
+          <td><strong>Oportunidades de fluxo:</strong><br>O cliente precisa fazer o upload de fotos obrigatórias provando a avaria e o aviso. Solicitar ao cliente o código da peça no manual para agilizar a identificação. Sugerir opções de peças com problemas baseado no histórico de assistências.</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Validação automática para peças pequenas. Se a peça está no banco de dados simplificado para produtos que tiveram muitas assistências, o próprio sistema já pode oferecer o prazo e a solução para o cliente de forma automática. Considerar prazo disponibilidade, de envio no fluxo de análise do time de atendimento para validação. Para peças grandes ou em casos suspeitos, envio ao time de atendimento para revisão manual.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente pode escolher entre receber as peças ou um reembolso parcial.</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Priorizar envio de peças pequenas por correio para agilizar entrega. Peças grandes seguem com a logística.</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+
+        <!-- PEÇAS FALTANTES -->
+        <tr>
+          <td class="row-label"><span data-pt="Peças Faltantes" data-en="Missing Parts">Peças Faltantes</span></td>
+          <td><strong>Oportunidades de fluxo:</strong><br>O cliente tem o upload de fotos opcional, caso o queira reforçar a solicitação. Solicitar ao cliente o código da peça no manual para agilizar a identificação.</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Validação automática para peças pequenas. Se a peça está no banco de dados simplificado para produtos que tiveram muitas assistências, o próprio sistema já pode oferecer o prazo e a solução para o cliente de forma automática. Caso seja um produto que não temos mapeado prazo ou disponibilidade, vai envio ao fluxo de análise do time de atendimento para validação. Para peças grandes ou em casos suspeitos, envio ao time de atendimento para revisão manual.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente pode escolher entre receber as peças ou um reembolso parcial.</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Priorizar envio de peças pequenas por correio para agilizar entrega. Peças grandes seguem com a logística.</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+
+        <!-- PRODUTO CONSERTAR/MONTAR -->
+        <tr>
+          <td class="row-label"><span data-pt="Produto Consertar / Montar" data-en="Product to Repair / Assemble">Produto Consertar / Montar</span></td>
+          <td><strong>Oportunidades de fluxo:</strong><br>O cliente precisa fazer o upload de fotos obrigatórias provando o defeito. Solicitar ao cliente o código de peça no manual para agilizar a identificação, caso se aplique.</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Validação do pedido de assistência feita pelo time de atendimento.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente pode escolher entre trocar o produto, receber as peças ou um reembolso parcial.</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Priorizar envio de peças pequenas por correio para agilizar entrega. Peças grandes seguem com a logística.</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+
+        <!-- PRODUTO ERRADO -->
+        <tr>
+          <td class="row-label"><span data-pt="Produto Errado" data-en="Wrong Product">Produto Errado</span></td>
+          <td><strong>Oportunidades de fluxo:</strong><br>O cliente precisa fazer o upload de fotos obrigatórias provando o envio.</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Validação do pedido de assistência feita pelo time de atendimento.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente pode escolher entre trocar o produto, receber as peças ou um reembolso parcial.</td>
+          <td>—</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Priorizar envio de peças pequenas por correio para agilizar entrega. Peças grandes seguem com a logística.</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+
+        <!-- REDE DE PARCEIROS LOCAIS -->
+        <tr style="background:#161210;">
+          <td class="row-label" style="background:#1e1610;"><span style="color:#e8883a;" data-pt="Rede de Parceiros Locais" data-en="Local Partner Network">Rede de Parceiros Locais</span></td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente identifica o problema e pode ser direcionado a um parceiro local (loja de ferragens ou material de construção) próximo à sua cidade, especialmente nas regiões com maior incidência de problemas como a Grande São Paulo.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente reporta o problema normalmente pelo atendimento da Madeira Madeira. O sistema identifica se o caso é elegível para atendimento via rede de parceiros — quando o custo ou prazo de envio de peça não faz sentido operacional.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente recebe confirmação do parceiro local designado e instruções de como proceder para o atendimento presencial.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Atendimento avalia o caso e aciona o parceiro local mais próximo da cidade do cliente, já preparado para aquele tipo de demanda.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Validação do caso e definição se o atendimento será via parceiro local — peças simples como parafusos, dobradiças e pequenas peças de montagem que o parceiro já possui em estoque.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente resolve o problema diretamente no parceiro local com atendimento personalizado e presencial. A resolução é mais rápida e elimina o tempo de espera do envio. Madeira Madeira trata os valores diretamente com o parceiro.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>O parceiro local atua como extensão da assistência técnica da Madeira Madeira. Além do envio de peças, pode receber o cliente presencialmente e resolver o problema no local.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Parceiro executa o atendimento — seja entregando a peça, orientando a montagem ou realizando o conserto no local. Madeira Madeira cobre os custos diretamente com o parceiro.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente acompanha a resolução diretamente com o parceiro. Atendimento centralizado da Madeira Madeira pode monitorar o status e intervir se necessário.</td>
+          <td><strong>Oportunidades de fluxo:</strong><br>Cliente avalia a experiência com o parceiro local. Feedbacks ajudam a qualificar a rede e identificar parceiros com melhor desempenho por região.</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <!-- MÉDIO PRAZO -->
+  <div style="margin-top:72px;padding-top:56px;border-top:1px solid var(--line);">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:10px;" data-pt="Médio prazo" data-en="Mid term">Médio prazo</div>
+    <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:40px;" data-pt="Rede de Parceiros Locais" data-en="Local Partner Network">Rede de Parceiros Locais</div>
+    <div class="partners-grid">
+      <div class="partner-card accent-card">
+        <div class="card-label" data-pt="A ideia" data-en="The idea">A ideia</div>
+        <div class="card-title" data-pt="Uma cadeia amplificada de assistência técnica, via lojas parceiras locais" data-en="An amplified technical support chain via local partner stores">Uma cadeia amplificada de assistência técnica, via lojas parceiras locais</div>
+        <div class="card-body">Inspirada nos modelos de Magazine Luiza e IKEA, a proposta foi criar uma rede de lojas de ferragens e materiais de construção que atuam como extensão da assistência técnica da Madeira Madeira. Esses parceiros podem tanto enviar peças ao cliente quanto recebê-lo presencialmente para um atendimento mais personalizado e resolutivo — sem depender do envio de peças pelo fornecedor original.</div>
+      </div>
+      <div class="partner-card">
+        <div class="card-label" data-pt="Regiões prioritárias" data-en="Priority regions">Regiões prioritárias</div>
+        <div class="card-title" data-pt="Mapeadas pelos dados do discovery" data-en="Mapped by discovery data">Mapeadas pelos dados do discovery</div>
+        <div class="card-body">Com base na análise quantitativa, foram identificadas as cidades com maior volume de problemas de assistência técnica. A Grande São Paulo foi uma das regiões com maior incidência, tornando-se o ponto de partida para a implementação da rede.</div>
+      </div>
+      <div class="partner-card">
+        <div class="card-label" data-pt="Os parceiros" data-en="The partners">Os parceiros</div>
+        <div class="card-title" data-pt="Lojas de ferragens e materiais de construção" data-en="Hardware and building supply stores">Lojas de ferragens e materiais de construção</div>
+        <div class="card-body">Estabelecimentos locais integrados à rede, preparados para atender demandas específicas com peças e serviços disponíveis no próprio estoque. A Madeira Madeira trata os valores diretamente com cada parceiro, sem envolver o cliente nessa negociação.</div>
+      </div>
+      <div class="partner-card">
+        <div class="card-label" data-pt="Vantagem operacional" data-en="Operational advantage">Vantagem operacional</div>
+        <div class="card-title" data-pt="Menor esforço de implementação no médio prazo" data-en="Lower implementation effort in the medium term">Menor esforço de implementação no médio prazo</div>
+        <div class="card-body">Por aproveitar uma rede de estabelecimentos já existentes, essa solução não exige a criação de infraestrutura própria. O custo de operação é menor, o tempo de resolução cai e o cliente tem uma experiência mais humana e direta com a marca.</div>
+      </div>
+    </div>
+    <div class="flow-list" style="margin-top:48px;">
+      <div style="margin-bottom:20px;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);" data-pt="Como funciona o fluxo" data-en="How the flow works">Como funciona o fluxo</div>
+      <div class="flow-item">
+        <div class="flow-num">01</div>
+        <div class="flow-content"><h4 data-pt="Abertura do chamado" data-en="Ticket opening">Abertura do chamado</h4><p>O cliente identifica um problema com o produto e entra em contato com o atendimento da Madeira Madeira.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">02</div>
+        <div class="flow-content"><h4 data-pt="Avaliação do caso" data-en="Case assessment">Avaliação do caso</h4><p>O time avalia se o problema é elegível para atendimento via rede de parceiros — especialmente quando o envio de peça seria desproporcional em custo ou prazo.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">03</div>
+        <div class="flow-content"><h4 data-pt="Direcionamento ao parceiro local" data-en="Routing to local partner">Direcionamento ao parceiro local</h4><p>O cliente é direcionado ao parceiro mais próximo da sua cidade, já preparado para atender aquele tipo de demanda.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">04</div>
+        <div class="flow-content"><h4 data-pt="Atendimento presencial ou envio direto" data-en="In-person service or direct delivery">Atendimento presencial ou envio direto</h4><p>O parceiro recebe o cliente no local ou envia a peça necessária. O problema é resolvido com agilidade, sem depender da cadeia logística padrão.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">05</div>
+        <div class="flow-content"><h4 data-pt="Acerto financeiro com o parceiro" data-en="Financial settlement with partner">Acerto financeiro com o parceiro</h4><p>A Madeira Madeira trata os valores diretamente com o parceiro, mantendo o cliente fora dessa negociação e garantindo uma experiência limpa e sem fricção.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LONGO PRAZO -->
+  <div style="margin-top:72px;padding-top:56px;border-top:1px solid var(--line);">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:10px;" data-pt="Longo prazo" data-en="Long term">Longo prazo</div>
+    <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:40px;" data-pt="Centro de Peças Próprio da Madeira Madeira" data-en="Madeira Madeira's Own Parts Center">Centro de Peças Próprio da Madeira Madeira</div>
+    <div class="partners-grid">
+      <div class="partner-card accent-card">
+        <div class="card-label" data-pt="A ideia" data-en="The idea">A ideia</div>
+        <div class="card-title" data-pt="Um hub interno de peças de reposição para múltiplos produtos e fornecedores" data-en="An internal spare parts hub for multiple products and suppliers">Um hub interno de peças de reposição para múltiplos produtos e fornecedores</div>
+        <div class="card-body">Inspirada no modelo da IKEA, a proposta de longo prazo é a criação de um centro interno dentro da Madeira Madeira — um hub concentrado com pequenas peças de reposição como parafusos, dobradiças, cavilhas, espelhos e outros componentes comuns que servem a múltiplos produtos e fornecedores. Com isso, a Madeira Madeira passa a ter autonomia para resolver boa parte das assistências sem precisar acionar o fornecedor original.</div>
+      </div>
+      <div class="partner-card">
+        <div class="card-label" data-pt="O que muda" data-en="What changes">O que muda</div>
+        <div class="card-title" data-pt="Menor dependência de fornecedores terceiros" data-en="Less dependence on third-party suppliers">Menor dependência de fornecedores terceiros</div>
+        <div class="card-body">Com um estoque próprio de peças padronizadas, é possível resolver chamados com muito mais velocidade e menor custo. A assistência deixa de depender do tempo de resposta do fornecedor e passa a ser controlada internamente pela Madeira Madeira.</div>
+      </div>
+      <div class="partner-card">
+        <div class="card-label" data-pt="A plataforma" data-en="The platform">A plataforma</div>
+        <div class="card-title" data-pt="Sistema de cadastro e gestão de peças" data-en="Parts registration and management system">Sistema de cadastro e gestão de peças</div>
+        <div class="card-body">A implementação exige uma plataforma capaz de reunir o cadastro completo das peças, cruzar com os produtos do catálogo e automatizar o envio. Isso inclui um trabalho de padronização junto aos fornecedores, para que peças comuns entre produtos diferentes possam ser compartilhadas no estoque.</div>
+      </div>
+      <div class="partner-card">
+        <div class="card-label" data-pt="O desafio" data-en="The challenge">O desafio</div>
+        <div class="card-title" data-pt="Padronização de peças entre fornecedores" data-en="Parts standardization across suppliers">Padronização de peças entre fornecedores</div>
+        <div class="card-body">Para funcionar em escala, os fornecedores precisariam adotar componentes mais padronizados em termos de tamanho e material. Esse é o principal esforço de longo prazo — uma mudança que envolve negociação com parceiros e reestruturação de parte da cadeia produtiva.</div>
+      </div>
+    </div>
+    <div class="flow-list" style="margin-top:48px;">
+      <div style="margin-bottom:20px;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);" data-pt="Como funciona o fluxo" data-en="How the flow works">Como funciona o fluxo</div>
+      <div class="flow-item">
+        <div class="flow-num">01</div>
+        <div class="flow-content"><h4 data-pt="Cliente abre o chamado" data-en="Customer opens the ticket">Cliente abre o chamado</h4><p>O cliente reporta o problema pelo atendimento da Madeira Madeira, identificando a peça com defeito ou faltante.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">02</div>
+        <div class="flow-content"><h4 data-pt="Sistema consulta o estoque próprio" data-en="System checks internal inventory">Sistema consulta o estoque próprio</h4><p>A plataforma verifica automaticamente se a peça necessária está disponível no centro de peças interno. Caso positivo, o envio é iniciado sem necessidade de acionar o fornecedor.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">03</div>
+        <div class="flow-content"><h4 data-pt="Envio direto ao cliente" data-en="Direct delivery to customer">Envio direto ao cliente</h4><p>A peça é enviada pelo correio ou logística leve diretamente ao cliente, com rastreamento integrado à plataforma de pedidos da Madeira Madeira.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">04</div>
+        <div class="flow-content"><h4 data-pt="Resolução automática" data-en="Automated resolution">Resolução automática</h4><p>Com o estoque mapeado e o sistema integrado, grande parte dos chamados passa a ser resolvida de forma automática, sem intervenção manual do time de atendimento.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-num">05</div>
+        <div class="flow-content"><h4 data-pt="Avaliação e melhoria contínua" data-en="Evaluation and continuous improvement">Avaliação e melhoria contínua</h4><p>Os dados de uso do centro de peças alimentam o sistema, identificando quais peças têm maior demanda e onde o catálogo precisa ser expandido ou padronizado junto aos fornecedores.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="resultados">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title" data-pt="Resultados" data-en="Results">Resultados</h2>
+  </div>
+  <div class="prose" style="margin-bottom:48px;">
+    <p data-pt="Com a implementação das soluções de curto e curto/médio prazo, a jornada de assistência técnica passou por melhorias concretas e mensuráveis. O acompanhamento dos resultados foi feito via dashboards internos da empresa — um painel construído em Python para análise de dados densos da operação — e complementado com dados comportamentais via Google Analytics." data-en="With the implementation of short and short/medium-term solutions, the technical support journey underwent concrete and measurable improvements. Results were tracked through the company's internal dashboards — a panel built in Python for dense operational data analysis — and complemented with behavioral data from Google Analytics.">Com a implementação das soluções de curto e curto/médio prazo, a jornada de assistência técnica passou por melhorias concretas e mensuráveis. O acompanhamento dos resultados foi feito via dashboards internos da empresa — um painel construído em Python para análise de dados densos da operação — e complementado com dados comportamentais via Google Analytics.</p>
+    <p data-pt="Esse conjunto de fontes permitiu monitorar de forma contínua os principais indicadores do projeto e validar o impacto das mudanças implementadas ao longo do tempo." data-en="This combination of data sources allowed continuous monitoring of the project's key indicators and validated the impact of the changes implemented over time.">Esse conjunto de fontes permitiu monitorar de forma contínua os principais indicadores do projeto e validar o impacto das mudanças implementadas ao longo do tempo.</p>
+  </div>
+  <div class="results-row">
+    <div class="stat-block">
+      <div class="stat-number">−18pp</div>
+      <div class="stat-desc" data-pt="queda na taxa de não retorno de compra nos primeiros seis meses após a implementação das soluções de curto e curto/médio prazo" data-en="drop in the non-return purchase rate in the first six months after implementing short and short/mid-term solutions">queda na taxa de não retorno de compra nos primeiros seis meses após a implementação das soluções de curto e curto/médio prazo</div>
+    </div>
+    <div class="result-text">
+      <p data-pt="O indicador central do projeto era a taxa de não retorno de compra: o percentual de clientes que acionavam a assistência técnica e não voltavam a comprar na plataforma. Antes do projeto, esse número estava acima de 50%." data-en="The central metric of the project was the non-return purchase rate: the percentage of customers who contacted technical support and did not come back to buy again. Before the project, this number was above 50%.">O indicador central do projeto era a taxa de não retorno de compra: o percentual de clientes que acionavam a assistência técnica e não voltavam a comprar na plataforma. Antes do projeto, esse número estava acima de 50%.</p>
+      <p data-pt="Com as primeiras implementações das soluções de curto e curto/médio prazo, esse índice caiu 18 pontos percentuais nos primeiros seis meses. A taxa saiu de mais de 50% para cerca de 32%, representando um aumento real na retenção de clientes que antes se tornavam detratores após passar pelo processo." data-en="With the first implementations of the short and short/medium-term solutions, this rate dropped by 18 percentage points in the first six months. The non-return rate went from over 50% to around 32%, representing a real increase in the retention of customers who previously became detractors after going through the process.">Com as primeiras implementações das soluções de curto e curto/médio prazo, esse índice caiu 18 pontos percentuais nos primeiros seis meses. A taxa saiu de mais de 50% para cerca de 32%, representando um aumento real na retenção de clientes que antes se tornavam detratores após passar pelo processo.</p>
+      <p data-pt="Esse resultado confirmou que a experiência de pós-venda tem impacto direto na decisão de recompra — e que melhorar esse processo vai além de resolver o problema técnico: trata-se de manter o relacionamento com o cliente num momento crítico." data-en="This result confirmed that the after-sales experience has a direct impact on the repurchase decision — and that improving this process goes beyond solving the customer's technical problem: it is about maintaining the relationship with the customer at a critical moment.">Esse resultado confirmou que a experiência de pós-venda tem impacto direto na decisão de recompra — e que melhorar esse processo vai além de resolver o problema técnico: trata-se de manter o relacionamento com o cliente num momento crítico.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<footer>
+  <div>
+    <div class="footer-name">Lucas Venturini</div>
+    <div class="footer-role">Product Designer</div>
+  </div>
+  <div class="footer-note">
+    <span data-pt="Projeto — Madeira Madeira" data-en="Project — Madeira Madeira">Projeto — Madeira Madeira</span><br>
+    <span data-pt="Pós-venda &amp; Assistência Técnica" data-en="After-sales &amp; Technical Support">Pós-venda &amp; Assistência Técnica</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.07 }
+  );
+  document.querySelectorAll('section').forEach(s => observer.observe(s));
+</script>
+
+<script>
+let currentLang = 'pt';
+
+function toggleLang() {
+  currentLang = currentLang === 'pt' ? 'en' : 'pt';
+  const btn = document.getElementById('lang-toggle');
+  btn.textContent = currentLang === 'pt' ? 'EN' : 'PT';
+
+  document.querySelectorAll('[data-pt]').forEach(el => {
+    const text = el.getAttribute('data-' + currentLang);
+    if (text) {
+      // preserve inner HTML for elements with child tags
+      if (el.children.length === 0) {
+        el.textContent = text;
+      } else {
+        // for elements like hero title with <em> children, skip (handled separately)
+      }
+    }
+  });
+
+  // Handle prose paragraphs separately
+  const proseParagraphs = {
+    pt: [
+      "Na Madeira Madeira, o time de negócios identificou um volume crescente de reclamações passando pelo processo de assistência técnica no pós-venda. Clientes que compravam produtos como móveis chegavam a receber itens com defeito ou danificados e precisavam acionar o suporte para resolver.",
+      "O dado mais preocupante veio de uma análise de retenção: mais de 50% dos clientes que passavam pela assistência técnica não voltavam a comprar na plataforma. Quem acionava o suporte provavelmente se tornava um detrator e deixava de comprar. A experiência de pós-venda estava destruindo o relacionamento com o usuário no momento em que ele mais precisava de suporte.",
+      "Esse cenário tornou a intervenção urgente. O negócio trouxe a demanda para ser trabalhada como um projeto de redesign, com o objetivo de entender as causas raiz e redesenhar a jornada de assistência técnica de ponta a ponta.",
+      "O processo de discovery foi estruturado em quatro etapas complementares, com o objetivo de garantir uma visão completa do problema — olhando tanto para a experiência do usuário final quanto para as operações internas e para o mercado.",
+      "Como resultado das quatro etapas, foi produzido um documento consolidado com o diagnóstico completo do problema e as diretrizes para o redesign, apresentado para os stakeholders de negócio.",
+      "Com base em todo o material do discovery, o redesign foi estruturado em três frentes com horizontes diferentes. A curto prazo, o redesenho da arquitetura de informação e da jornada de assistência técnica dentro dos sistemas da Madeira Madeira. A médio prazo, a criação de uma rede de parceiros locais para atender casos onde o envio de peças não fazia sentido operacional. A longo prazo, um centro próprio de peças de reposição para dar autonomia total à operação.",
+      "Com base nos aprendizados do discovery, foi proposto um redesenho da arquitetura de informação do processo de assistência técnica. Esse trabalho mapeou como deveria funcionar toda a estrutura interna da Madeira Madeira a curto prazo — os fluxos, pontos de decisão, integrações entre times e a lógica de triagem automatizada para os diferentes tipos de chamado.",
+      "Com a implementação das soluções de curto e curto/médio prazo, a jornada de assistência técnica passou por melhorias concretas e mensuráveis. O acompanhamento dos resultados foi feito via dashboards internos da empresa — um painel construído em Python para análise de dados densos da operação — e complementado com dados comportamentais via Google Analytics.",
+      "Esse conjunto de fontes permitiu monitorar de forma contínua os principais indicadores do projeto e validar o impacto das mudanças implementadas ao longo do tempo.",
+      "O indicador central do projeto era a taxa de não retorno de compra: o percentual de clientes que acionavam a assistência técnica e não voltavam a comprar na plataforma. Antes do projeto, esse número estava acima de 50%.",
+      "Com as primeiras implementações das soluções de curto e curto/médio prazo, esse índice caiu 18 pontos percentuais nos primeiros seis meses. A taxa saiu de mais de 50% para cerca de 32%, representando um aumento real na retenção de clientes que antes se tornavam detratores após passar pelo processo.",
+      "Esse resultado confirmou que a experiência de pós-venda tem impacto direto na decisão de recompra — e que melhorar esse processo vai além de resolver o problema técnico: trata-se de manter o relacionamento com o cliente num momento crítico.",
+    ],
+    en: [
+      "At Madeira Madeira, the business team identified a growing volume of complaints going through the after-sales technical support process. Customers who bought products like furniture were receiving items with defects or damage and needed to contact support to resolve the issues.",
+      "The most concerning figure came from a retention analysis: more than 50% of customers who went through technical support did not return to make another purchase. Whoever contacted support would likely become a detractor and stop buying. The after-sales experience was destroying the relationship with the user at the very moment they needed support the most.",
+      "This scenario made intervention urgent. The business brought the demand forward as a redesign project, with the goal of understanding the root causes and redesigning the technical support journey end to end.",
+      "The discovery process was structured into four complementary stages, aiming to ensure a complete view of the problem — looking at both the end user experience and the company's internal operations and market practices.",
+      "As a result of the four stages, a consolidated document was produced with a complete diagnosis of the problem and the guidelines for the redesign, presented to business stakeholders.",
+      "Based on all the discovery material, the redesign was structured around three fronts with different time horizons. In the short term, the redesign of the information architecture and technical support journey within Madeira Madeira's systems. In the medium term, the creation of a local partner network to handle cases where shipping parts made no operational sense. In the long term, a proprietary spare parts center to give the operation full autonomy.",
+      "Based on the discovery insights, a redesign of the information architecture for the technical support process was proposed. This work mapped how the entire internal structure of Madeira Madeira should work in the short term — the flows, decision points, team integrations, and automated triage logic for different types of requests.",
+      "With the implementation of short and short/medium-term solutions, the technical support journey underwent concrete and measurable improvements. Results were tracked through the company's internal dashboards — a panel built in Python for dense operational data analysis — and complemented with behavioral data from Google Analytics.",
+      "This combination of data sources allowed continuous monitoring of the project's key indicators and validated the impact of the changes implemented over time.",
+      "The central metric of the project was the non-return purchase rate: the percentage of customers who contacted technical support and did not come back to buy again. Before the project, this number was above 50%.",
+      "With the first implementations of the short and short/medium-term solutions, this rate dropped by 18 percentage points in the first six months. The non-return rate went from over 50% to around 32%, representing a real increase in the retention of customers who previously became detractors after going through the process.",
+      "This result confirmed that the after-sales experience has a direct impact on the repurchase decision — and that improving this process goes beyond solving the customer's technical problem: it is about maintaining the relationship with the customer at a critical moment.",
+    ]
+  };
+
+  document.querySelectorAll('.prose p, .result-text p').forEach((el, i) => {
+    const ptText = el.getAttribute('data-pt');
+    const enText = el.getAttribute('data-en');
+    if (ptText && enText) {
+      el.innerHTML = currentLang === 'pt' ? ptText : enText;
+    }
+  });
+}
+</script>
+</body>
+</html>
